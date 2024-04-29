@@ -10,9 +10,9 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_pass}@cluster0.oknyghy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_pass}@cluster0.oknyghy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-// const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb://localhost:27017';
 
 
 const client = new MongoClient(uri, {
@@ -83,12 +83,12 @@ async function run() {
         app.put('/crafts/:id', async (req, res) => {
             // console.log(req.body);
             const id = req.params.id;
-            const { name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email } = req.body;
+            const { name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email, user_url } = req.body;
             const filter = { _id: new ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
                 $set: {
-                    name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email
+                    name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email, user_url
                 }
             }
             const result = await craftsDB.updateOne(filter, updatedDoc, options);
