@@ -57,44 +57,6 @@ async function run() {
             res.send(craft);
         });
 
-        app.get('/crafts/subcategory/:subcategory', async (req, res) => {
-            const subcategory = req.params.subcategory;
-            const query = { subcategory: subcategory };
-            const cursor = craftsDB.find(query);
-            const craft = await cursor.toArray();
-            res.send(craft);
-        });
-
-        app.get('/crafts/user/:user', async (req, res) => {
-            const user = req.params.user;
-            const query = { provider: user };
-            const craft = await craftsDB.findOne(query);
-            res.send(craft);
-        });
-
-        app.get('/crafts/email/:email', async (req, res) => {
-            const email = req.params.email;
-            const query = { provider_email: email };
-            const cursor = craftsDB.find(query);
-            const craft = await cursor.toArray();
-            res.send(craft);
-        });
-
-        app.put('/crafts/:id', async (req, res) => {
-            // console.log(req.body);
-            const id = req.params.id;
-            const { name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email, user_url } = req.body;
-            const filter = { _id: new ObjectId(id) };
-            const options = { upsert: true };
-            const updatedDoc = {
-                $set: {
-                    name, subcategory, rating, stock, customization, brief, price, url, provider, provider_email, user_url
-                }
-            }
-            const result = await craftsDB.updateOne(filter, updatedDoc, options);
-            res.send(result);
-        })
-
         app.delete('/crafts/:id', async (req, res) => {
             // console.log(req.body);
             const id = req.params.id;
